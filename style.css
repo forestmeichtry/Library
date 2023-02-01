@@ -2,6 +2,7 @@
     --card-width: 325px;
     --card-height: 670px;
     --card-radius: 25px;
+    --seperator-height: 450px;
 }
 
 body {
@@ -32,53 +33,67 @@ body {
 }
 
 .bookCard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: whitesmoke;
+    background-color: #e9edc9;
     width: var(--card-width);
     height: var(--card-height);
     border-radius: var(--card-radius);
     perspective: 500px;
+    overflow: hidden;
 }
 
 .bookCover {
+    background-color: #ccd5ae;
     position: relative;
+    left: -50%;
+    height: var(--seperator-height);
+    width: calc(var(--card-width) * 2);
     transform-style: preserve-3d;
-    transform-origin: 50% 40%;
+    transform-origin: 50% 50%;
     z-index: 4;
-    transition: 1s;
+    transition: 1s ease-in-out;
 }
 
 .bookTop {
+    position: absolute;
+    top: 80px;
+    left: calc(var(--card-width) - 100px);
     display: flex;
     flex-direction: column;
     gap: 20px;
     align-content: center;
     justify-content: center;
     border-radius: 2px;
-    background-color: #635838;
-    width: 100px;
-    height: 150px;
+    background-color: #3d4387;
+    width: 200px;
+    height: 300px;
     z-index: 5;
-    transform: translateZ(28.5px);
+    transform: translateZ(62.5px);
     font-family: 'Merriweather', serif;
     text-align: center;
 }
 
 .bookSide {
+    position: absolute;
+    top: 381px;
+    left: calc(var(--card-width) - 100px);
     background-image: url(assets/bookSide.svg);
     background-size: cover;
-    width: 100px;
-    height: 30px;
-    transform: translateY(-15px) translateX(0px) translateZ(15px) rotateX(104deg);
+    width: 200px;
+    height: 60px;
+    transform: translateY(-25px) translateX(0px) translateZ(34px) rotateX(104deg);
+    filter: invert(23%) sepia(55%) saturate(1002%) hue-rotate(203deg) brightness(94%) contrast(88%);
+}
+
+.bookInfo {
+    background-color: #fefae0;
+    height: var(--seperator-height);
+    transition: 1s ease-in-out;
 }
 
 .bookCover:hover {
-    transform: rotateX(75deg) translateZ(3px) scale(0.75);
-  }
+    transform: rotateX(76deg) translateZ(3px) scale(0.75);
+}
 
-.bookCover:hover .bookSide {
-    transform: translateY(-13px) translateX(0px) translateZ(15px) rotateX(104deg);
+.bookCover:hover + .bookInfo {
+    transform: translateY(-223px);
 }

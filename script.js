@@ -41,4 +41,8 @@ for (book of bookArray) {
     let bookSide = document.createElement('div');
     bookSide.classList.add('bookSide');
     bookCover.appendChild(bookSide);
+
+    let bookInfo = document.createElement('div');
+    bookInfo.classList.add('bookInfo');
+    card.appendChild(bookInfo);
 }
