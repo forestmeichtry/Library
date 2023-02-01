@@ -45,4 +45,14 @@ for (book of bookArray) {
     let bookInfo = document.createElement('div');
     bookInfo.classList.add('bookInfo');
     card.appendChild(bookInfo);
+
+    let infoTitle = document.createElement('span');
+    infoTitle.classList.add('infoTitle');
+    infoTitle.innerHTML = book.title;
+    bookInfo.appendChild(infoTitle);
+
+    let infoAuthor = document.createElement('span');
+    infoAuthor.classList.add('infoAuthor');
+    infoAuthor.innerHTML = 'by ' + book.author;
+    bookInfo.appendChild(infoAuthor);
 }
