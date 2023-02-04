@@ -13,8 +13,26 @@ function addBookToLibrary(title, author) {
     bookArray.push(newBook);
 }
 
+function displayForm() {
+    buttonArea.classList.add('shiftUp');
+    formArea.classList.add('shiftUp');
+}
+
+function hideForm(event) {
+    event.preventDefault();
+    buttonArea.classList.remove('shiftUp');
+    formArea.classList.remove('shiftUp');
+}
+
 addBookToLibrary('Lord of the Rings', 'J.R.R. Tolkien');
 addBookToLibrary('Lord of the Flies', 'William Golding');
+
+const buttonArea = document.getElementById('buttonArea');
+const formArea = document.getElementById('formArea');
+const newBookButton = document.getElementById('newBookButton');
+const hideFormButton = document.getElementById('hideFormButton');
+newBookButton.addEventListener('click', displayForm);
+hideFormButton.addEventListener('click', hideForm);
 
 // Adds card to screen for each book in array
 for (book of bookArray) {
