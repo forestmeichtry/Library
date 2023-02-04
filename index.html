@@ -16,11 +16,38 @@
     <div id="library"></div>
     <div class="options">
         <div id="buttonArea">
-            <button id="newBookButton">New Book</button>
+            <button id="newBookButton" class="buttonStyle">New Book</button>
         </div>
         <div id="formArea">
             <form id="bookForm">
-                <button id="hideFormButton">Close</button>
+                <div id="titleField" class="inputField">
+                    <label for="title">
+                        <span>Book Title</span>
+                    </label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div id="authorField" class="inputField">
+                    <label for="author">
+                        <span>Author</span>
+                    </label>
+                    <input type="text" id="author" name="author" required>
+                </div>
+                <div id="pagesField" class="inputField">
+                    <label for="pages">
+                        <span>Number of Pages</span>
+                    </label>
+                    <input type="number" id="pages" name="pages" required>
+                </div>
+                <div id="summaryField" class="inputField">
+                    <label for="summary">
+                        <span>Summary</span>
+                    </label>
+                    <textarea name="summary" id="summaryField" cols="30" rows="10"></textarea>
+                </div>
+                <div class="buttonContainer">
+                    <button id="submitBookButton" class="buttonStyle">Submit</button>
+                    <button id="hideFormButton" class="buttonStyle">Close</button>
+                </div>
             </form>
         </div>
     </div>
