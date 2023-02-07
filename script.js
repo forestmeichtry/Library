@@ -19,6 +19,11 @@ function submitNewBook(event) {
         pagesField.value,
         summaryField.value
     );
+
+    titleField.value = '';
+    authorField.value = '';
+    pagesField.value = '';
+    summaryField.value = '';
 }
 
 // Creates a book and adds it to the book array
