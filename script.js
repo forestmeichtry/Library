@@ -23,7 +23,7 @@ function submitNewBook(event) {
 
 // Creates a book and adds it to the book array
 function addBookToLibrary(title, author, pageCount, summary) {
-    let newBook = new Book(title, author);
+    let newBook = new Book(title, author, pageCount, summary);
     bookArray.push(newBook);
 
     // Automatically adds book to display if there is space
@@ -65,6 +65,11 @@ function addBookToLibrary(title, author, pageCount, summary) {
         infoAuthor.classList.add('infoAuthor');
         infoAuthor.innerHTML = 'by ' + newBook.author;
         bookInfo.appendChild(infoAuthor);
+
+        let infoSummary = document.createElement('span');
+        infoSummary.classList.add('infoSummary');
+        infoSummary.innerHTML = newBook.summary;
+        bookInfo.appendChild(infoSummary);
     }
 }
 
