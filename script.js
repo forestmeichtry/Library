@@ -35,7 +35,15 @@ function addBookToLibrary(title, author, pageCount, summary) {
     if (bookArray.length <= displayLength) {
         let card = document.createElement('div');
         card.classList.add('bookCard');
+        newBook.card = card;
         library.appendChild(card);
+
+        let closeButton = document.createElement('div');
+        closeButton.classList.add('close');
+        closeButton.dataset.index = bookArray.length - 1;
+        newBook.closeButton = closeButton;
+        card.appendChild(closeButton);
+        closeButton.addEventListener('click', deleteFromLibrary);
 
         let bookCover = document.createElement('div');
         bookCover.classList.add('bookCover');
@@ -75,6 +83,21 @@ function addBookToLibrary(title, author, pageCount, summary) {
         infoSummary.classList.add('infoSummary');
         infoSummary.innerHTML = newBook.summary;
         bookInfo.appendChild(infoSummary);
+    }
+}
+
+function deleteFromLibrary() {
+    let index = this.dataset.index;
+    let card = bookArray[index].card;
+    while (card.hasChildNodes()) {
+        card.removeChild(card.firstChild);
+    }
+    card.remove();
+
+    bookArray.splice(index, 1);
+
+    for (let i = index; i < bookArray.length; i++) {
+        bookArray[i].closeButton.dataset.index = i;
     }
 }
 

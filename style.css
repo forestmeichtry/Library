@@ -44,6 +44,22 @@ body {
     overflow: hidden;
 }
 
+.close {
+    position: absolute;
+    left: 283px;
+    top: 12px;
+    height: 30px;
+    width: 30px;
+    background-image: url(assets/close-thick.svg);
+    background-size: cover;
+    z-index: 1;
+    transition: .7s;
+}
+
+.close:hover {
+    transform: scale(1.2);
+}
+
 .bookCover {
     background-color: #ccd5ae;
     position: relative;
@@ -52,7 +68,6 @@ body {
     width: calc(var(--card-width) * 2);
     transform-style: preserve-3d;
     transform-origin: 50% 50%;
-    z-index: 4;
     transition: .7s ease-in-out;
 }
 
