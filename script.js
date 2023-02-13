@@ -1,19 +1,65 @@
 const library = document.getElementById('library');
 let bookArray = [];
-let startIndex = 0;
-let displayLength = 3;
+let centerIndex = 1;
 
-// Book object constructor
-function Book(title, author, pages, summary) {
-    this.title = title;
-    this.author = author;
-    this.pageCount = pages;
-    this.summary = summary;
+window.addEventListener('resize', centerView);
+
+function centerView() {
+    document.querySelector(`[data-position="middle"]`).scrollIntoView({
+        behavior: 'auto',
+        block: 'center',
+        inline: 'center'
+    });
 }
+
+library.addEventListener('wheel', (event) => {
+    event.preventDefault;
+    if (event.deltaY < 0 && centerIndex > 1) {
+        bookArray[centerIndex - 2].card.dataset.position = 'left';
+        bookArray[centerIndex - 1].card.dataset.position = 'middle';
+        bookArray[centerIndex].card.dataset.position = 'right';
+        bookArray[centerIndex + 1].card.dataset.position = '';
+        centerIndex -= 1;
+    } else if (event.deltaY > 0 && centerIndex + 2 < bookArray.length) {
+        bookArray[centerIndex + 2].card.dataset.position = 'right';
+        bookArray[centerIndex + 1].card.dataset.position = 'middle';
+        bookArray[centerIndex].card.dataset.position = 'left';
+        bookArray[centerIndex - 1].card.dataset.position = '';
+        centerIndex += 1;
+    }
+});
+
+const buttonArea = document.getElementById('buttonArea');
+const formArea = document.getElementById('formArea');
+const newBookButton = document.getElementById('newBookButton');
+const hideFormButton = document.getElementById('hideFormButton');
+newBookButton.addEventListener('click', displayForm);
+hideFormButton.addEventListener('click', hideForm);
+
+function displayForm() {
+    buttonArea.classList.add('shiftUp');
+    formArea.classList.add('shiftUp');
+}
+
+function hideForm(event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    buttonArea.classList.remove('shiftUp');
+    formArea.classList.remove('shiftUp');
+}
+
+const titleField = document.getElementById('title');
+const authorField = document.getElementById('author');
+const pagesField = document.getElementById('pages');
+const summaryField = document.getElementById('summary');
+const submitButton = document.getElementById('submitBookButton');
+submitButton.addEventListener('click', submitNewBook);
 
 function submitNewBook(event) {
     event.preventDefault();
-    addBookToLibrary(
+    addToLibrary(
         titleField.value,
         authorField.value,
         pagesField.value,
@@ -24,65 +70,89 @@ function submitNewBook(event) {
     authorField.value = '';
     pagesField.value = '';
     summaryField.value = '';
+
+    hideForm();
+}
+
+// Book object constructor
+function Book(title, author, pages, summary) {
+    this.title = title;
+    this.author = author;
+    this.pageCount = pages;
+    this.summary = summary;
+    this.card;
 }
 
 // Creates a book and adds it to the book array
-function addBookToLibrary(title, author, pageCount, summary) {
+function addToLibrary(title, author, pageCount, summary) {
     let newBook = new Book(title, author, pageCount, summary);
     bookArray.push(newBook);
+    let bookIndex = bookArray.length - 1;
 
-    // Automatically adds book to display if there is space
-    if (bookArray.length <= displayLength) {
-        let card = document.createElement('div');
-        card.classList.add('bookCard');
-        newBook.card = card;
-        library.appendChild(card);
+    // Add bookCard to DOM
+    let card = document.createElement('div');
+    card.classList.add('bookCard');
+    newBook.card = card;
+    library.appendChild(card);
 
-        let closeButton = document.createElement('div');
-        closeButton.classList.add('close');
-        closeButton.dataset.index = bookArray.length - 1;
-        newBook.closeButton = closeButton;
-        card.appendChild(closeButton);
-        closeButton.addEventListener('click', deleteFromLibrary);
+    let closeButton = document.createElement('div');
+    closeButton.classList.add('close');
+    closeButton.dataset.index = bookIndex;
+    newBook.closeButton = closeButton;
+    card.appendChild(closeButton);
+    closeButton.addEventListener('click', deleteFromLibrary);
 
-        let bookCover = document.createElement('div');
-        bookCover.classList.add('bookCover');
-        card.appendChild(bookCover);
+    let bookCover = document.createElement('div');
+    bookCover.classList.add('bookCover');
+    card.appendChild(bookCover);
 
-        let bookTop = document.createElement('div');
-        bookTop.classList.add('bookTop');
-        bookCover.appendChild(bookTop);
+    let bookTop = document.createElement('div');
+    bookTop.classList.add('bookTop');
+    bookCover.appendChild(bookTop);
 
-        let titleField = document.createElement('span');
-        titleField.innerHTML = newBook.title;
-        bookTop.appendChild(titleField);
+    let titleField = document.createElement('span');
+    titleField.innerHTML = newBook.title;
+    bookTop.appendChild(titleField);
 
-        let authorField = document.createElement('span');
-        authorField.innerHTML = newBook.author;
-        bookTop.appendChild(authorField);
-        
-        let bookSide = document.createElement('div');
-        bookSide.classList.add('bookSide');
-        bookCover.appendChild(bookSide);
+    let authorField = document.createElement('span');
+    authorField.innerHTML = newBook.author;
+    bookTop.appendChild(authorField);
+    
+    let bookSide = document.createElement('div');
+    bookSide.classList.add('bookSide');
+    bookCover.appendChild(bookSide);
 
-        let bookInfo = document.createElement('div');
-        bookInfo.classList.add('bookInfo');
-        card.appendChild(bookInfo);
+    let bookInfo = document.createElement('div');
+    bookInfo.classList.add('bookInfo');
+    card.appendChild(bookInfo);
 
-        let infoTitle = document.createElement('span');
-        infoTitle.classList.add('infoTitle');
-        infoTitle.innerHTML = newBook.title;
-        bookInfo.appendChild(infoTitle);
+    let infoTitle = document.createElement('span');
+    infoTitle.classList.add('infoTitle');
+    infoTitle.innerHTML = newBook.title;
+    bookInfo.appendChild(infoTitle);
 
-        let infoAuthor = document.createElement('span');
-        infoAuthor.classList.add('infoAuthor');
-        infoAuthor.innerHTML = 'by ' + newBook.author;
-        bookInfo.appendChild(infoAuthor);
+    let infoAuthor = document.createElement('span');
+    infoAuthor.classList.add('infoAuthor');
+    infoAuthor.innerHTML = 'by ' + newBook.author;
+    bookInfo.appendChild(infoAuthor);
 
-        let infoSummary = document.createElement('span');
-        infoSummary.classList.add('infoSummary');
-        infoSummary.innerHTML = newBook.summary;
-        bookInfo.appendChild(infoSummary);
+    let infoSummary = document.createElement('span');
+    infoSummary.classList.add('infoSummary');
+    infoSummary.innerHTML = newBook.summary;
+    bookInfo.appendChild(infoSummary);
+
+    switch (bookIndex) {
+        case 0:
+            card.dataset.position = 'left';
+            break;
+        case 1:
+            card.dataset.position = 'middle';
+            break
+        case 2:
+            card.dataset.position = 'right';
+            break;
+        default:
+            card.dataset.position = '';
     }
 }
 
@@ -99,32 +169,18 @@ function deleteFromLibrary() {
     for (let i = index; i < bookArray.length; i++) {
         bookArray[i].closeButton.dataset.index = i;
     }
+
+    if (bookArray.length < displayNumber + 1) {
+        leftButton.classList.add('hidden');
+        rightButton.classList.add('hidden');
+    }
 }
 
-function displayForm() {
-    buttonArea.classList.add('shiftUp');
-    formArea.classList.add('shiftUp');
-}
+addToLibrary('Lord of the Rings', 'J.R.R. Tolkien', 1137, "The Lord of the Rings is the saga of a group of sometimes reluctant heroes who set forth to save their world from consummate evil. Its many worlds and creatures were drawn from Tolkien's extensive knowledge of philology and folklore.");
+addToLibrary('Lord of the Flies', 'William Golding', 224, "William Golding's 1954 novel 'Lord of the Flies' tells the story of a group of young boys who find themselves alone on a deserted island. They develop rules and a system of organization, but without any adults to serve as a civilizing impulse, the children eventually become violent and brutal.");
+addToLibrary('Lord of the Rings', 'J.R.R. Tolkien', 1137, "The Lord of the Rings is the saga of a group of sometimes reluctant heroes who set forth to save their world from consummate evil. Its many worlds and creatures were drawn from Tolkien's extensive knowledge of philology and folklore.");
+addToLibrary('Lord of the Flies', 'William Golding', 224, "William Golding's 1954 novel 'Lord of the Flies' tells the story of a group of young boys who find themselves alone on a deserted island. They develop rules and a system of organization, but without any adults to serve as a civilizing impulse, the children eventually become violent and brutal.");
+addToLibrary('Lord of the Rings', 'J.R.R. Tolkien', 1137, "The Lord of the Rings is the saga of a group of sometimes reluctant heroes who set forth to save their world from consummate evil. Its many worlds and creatures were drawn from Tolkien's extensive knowledge of philology and folklore.");
+addToLibrary('Lord of the Flies', 'William Golding', 224, "William Golding's 1954 novel 'Lord of the Flies' tells the story of a group of young boys who find themselves alone on a deserted island. They develop rules and a system of organization, but without any adults to serve as a civilizing impulse, the children eventually become violent and brutal.");
 
-function hideForm(event) {
-    event.preventDefault();
-    buttonArea.classList.remove('shiftUp');
-    formArea.classList.remove('shiftUp');
-}
-
-addBookToLibrary('Lord of the Rings', 'J.R.R. Tolkien', 1137, "The Lord of the Rings is the saga of a group of sometimes reluctant heroes who set forth to save their world from consummate evil. Its many worlds and creatures were drawn from Tolkien's extensive knowledge of philology and folklore.");
-addBookToLibrary('Lord of the Flies', 'William Golding', 224, "William Golding's 1954 novel 'Lord of the Flies' tells the story of a group of young boys who find themselves alone on a deserted island. They develop rules and a system of organization, but without any adults to serve as a civilizing impulse, the children eventually become violent and brutal.");
-
-const buttonArea = document.getElementById('buttonArea');
-const formArea = document.getElementById('formArea');
-const newBookButton = document.getElementById('newBookButton');
-const hideFormButton = document.getElementById('hideFormButton');
-newBookButton.addEventListener('click', displayForm);
-hideFormButton.addEventListener('click', hideForm);
-
-const titleField = document.getElementById('title');
-const authorField = document.getElementById('author');
-const pagesField = document.getElementById('pages');
-const summaryField = document.getElementById('summary');
-const submitButton = document.getElementById('submitBookButton');
-submitButton.addEventListener('click', submitNewBook);
+centerView('middle');

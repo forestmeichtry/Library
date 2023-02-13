@@ -2,6 +2,7 @@
     --card-width: 325px;
     --card-height: 670px;
     --card-radius: 25px;
+    --card-index: 2;
     --seperator-height: 450px;
     --options-height: 300px;
 }
@@ -29,19 +30,77 @@ body {
 
 #library {
     display: grid;
-    justify-items: center;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(auto-fill, calc(var(--card-width) + var(--card-gap)));
     align-items: center;
-    gap: 30px;
-    grid-template-columns: repeat(auto-fit, minmax(335px, 1fr));
+    overflow-x: hidden;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+.arrow {
+    margin: 20px;
+    height: 150px;
+    fill: #ccd5ae;
+    stroke: black;
+    stroke-width: .4px;
+    stroke-linejoin: round;
+    transition: .2s;
+}
+
+.arrow:hover {
+    transform: scale(1.2);
+    fill: black;
+    stroke: #ccd5ae;
+}
+
+.hidden {
+    display: none;
 }
 
 .bookCard {
     background-color: #e9edc9;
+    margin: calc(var(--card-gap) / 2);
     width: var(--card-width);
     height: var(--card-height);
     border-radius: var(--card-radius);
     perspective: 500px;
     overflow: hidden;
+    transition: .7s;
+}
+
+.bookCard[data-position='left'] {
+    margin-left: 20vw;
+}
+
+.bookCard[data-position='middle'] {
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+.bookCard[data-position='right'] {
+    margin-right: 20vw;
+}
+
+.bookCard[data-position=''] {
+    width: 0;
+    opacity: 0;
+}
+
+.bookCard[data-position='']>.bookCover {
+    transition: 1s;
+    transform: translateX(-100px);
+}
+
+.bookCard[data-position='']>.bookInfo>span {
+    transition: 1s;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+    transform: translateX(200px);
+    opacity: 0;
+    width: var(--card-width);
+    text-align: center;
 }
 
 .close {
@@ -130,16 +189,16 @@ body {
     transition: .7s cubic-bezier(0.5, 0.1, 0.35, 1);
 }
 
-.bookCover:hover {
+.bookCard:hover>.bookCover {
     transform: rotateX(76deg) translateZ(3px) scale(0.75);
 }
 
-.bookCover:hover + .bookInfo {
+.bookCard:hover>.bookCover + .bookInfo {
     transform: translateY(-223px);
     transition: .7s cubic-bezier(0.6, 0.01, 0.56, .9);
 }
 
-.bookCover:hover + .bookInfo>.infoSummary {
+.bookCard:hover>.bookCover + .bookInfo>.infoSummary {
     color: black;
 }
 
