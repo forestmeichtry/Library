@@ -95,6 +95,16 @@ function addToLibrary(title, author, pageCount, summary) {
     newBook.card = card;
     library.appendChild(card);
 
+    card.addEventListener('click', toggleInfo);
+
+    function toggleInfo() {
+        if (!card.classList.contains('expandedInfo')) {
+            card.classList.add('expandedInfo');
+        } else {
+            card.classList.remove('expandedInfo');
+        }
+    }
+
     let closeButton = document.createElement('div');
     closeButton.classList.add('close');
     closeButton.dataset.index = bookIndex;
@@ -125,6 +135,32 @@ function addToLibrary(title, author, pageCount, summary) {
     let bookInfo = document.createElement('div');
     bookInfo.classList.add('bookInfo');
     card.appendChild(bookInfo);
+
+    for (let i = 1; i < 4; i++) {
+        let upChevron = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        let path = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+
+        upChevron.setAttribute("aria-hidden","true");
+        upChevron.setAttribute('viewbox', '0 0 24 24');
+
+        path.setAttribute('d', "M 12,9.33 17.295,14.705 18,14 12,8 l -6,5.9995 0.705,0.705 z");
+
+        upChevron.appendChild(path);
+        upChevron.classList.add('upChevron', `chev${i}`);
+        bookInfo.appendChild(upChevron);
+    }
+
+    // let upChevronOne = document.createElement('div');
+    // upChevronOne.classList.add('upChevron', 'chevOne');
+    // bookInfo.appendChild(upChevronOne);
+
+    // let upChevronTwo = document.createElement('div');
+    // upChevronTwo.classList.add('upChevron', 'chevTwo');
+    // bookInfo.appendChild(upChevronTwo);
+
+    // let upChevronThree = document.createElement('div');
+    // upChevronThree.classList.add('upChevron', 'chevThree');
+    // bookInfo.appendChild(upChevronThree);
 
     let infoTitle = document.createElement('span');
     infoTitle.classList.add('infoTitle');
