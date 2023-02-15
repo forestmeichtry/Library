@@ -12,7 +12,7 @@ body {
     margin: 0;
     height: 100vh;
     display: grid;
-    grid-template-rows: 3fr var(--options-height);
+    grid-template-rows: minmax(var(--card-height), 3fr) var(--options-height);
     background-image: url(assets/libraryBackground.jpg);
     background-size: cover;
     overflow-x: hidden;
