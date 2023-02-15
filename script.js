@@ -2,29 +2,19 @@ const library = document.getElementById('library');
 let bookArray = [];
 let centerIndex = 1;
 
-window.addEventListener('resize', centerView);
-
-function centerView() {
-    document.querySelector(`[data-position="middle"]`).scrollIntoView({
-        behavior: 'auto',
-        block: 'center',
-        inline: 'center'
-    });
-}
-
 library.addEventListener('wheel', (event) => {
     event.preventDefault;
     if (event.deltaY < 0 && centerIndex > 1) {
         bookArray[centerIndex - 2].card.dataset.position = 'left';
         bookArray[centerIndex - 1].card.dataset.position = 'middle';
         bookArray[centerIndex].card.dataset.position = 'right';
-        bookArray[centerIndex + 1].card.dataset.position = '';
+        bookArray[centerIndex + 1].card.dataset.position = 'offscreenRight';
         centerIndex -= 1;
     } else if (event.deltaY > 0 && centerIndex + 2 < bookArray.length) {
         bookArray[centerIndex + 2].card.dataset.position = 'right';
         bookArray[centerIndex + 1].card.dataset.position = 'middle';
         bookArray[centerIndex].card.dataset.position = 'left';
-        bookArray[centerIndex - 1].card.dataset.position = '';
+        bookArray[centerIndex - 1].card.dataset.position = 'offscreenLeft';
         centerIndex += 1;
     }
 });
@@ -150,18 +140,6 @@ function addToLibrary(title, author, pageCount, summary) {
         bookInfo.appendChild(upChevron);
     }
 
-    // let upChevronOne = document.createElement('div');
-    // upChevronOne.classList.add('upChevron', 'chevOne');
-    // bookInfo.appendChild(upChevronOne);
-
-    // let upChevronTwo = document.createElement('div');
-    // upChevronTwo.classList.add('upChevron', 'chevTwo');
-    // bookInfo.appendChild(upChevronTwo);
-
-    // let upChevronThree = document.createElement('div');
-    // upChevronThree.classList.add('upChevron', 'chevThree');
-    // bookInfo.appendChild(upChevronThree);
-
     let infoTitle = document.createElement('span');
     infoTitle.classList.add('infoTitle');
     infoTitle.innerHTML = newBook.title;
@@ -183,32 +161,51 @@ function addToLibrary(title, author, pageCount, summary) {
             break;
         case 1:
             card.dataset.position = 'middle';
-            break
+            break;
         case 2:
             card.dataset.position = 'right';
             break;
         default:
-            card.dataset.position = '';
+            card.dataset.position = 'offscreenRight';
     }
 }
 
 function deleteFromLibrary() {
-    let index = this.dataset.index;
+    let index = parseInt(this.dataset.index);
     let card = bookArray[index].card;
+    let position = card.dataset.position;
+    let displayStart;
+
+    switch (position) {
+        case 'left':
+            displayStart = index;
+            break;
+        case 'middle':
+            displayStart = index - 1;
+            break;
+        case 'right':
+            displayStart = index - 2;
+            break;
+    }
+    displayStart = parseInt(displayStart);
+
     while (card.hasChildNodes()) {
         card.removeChild(card.firstChild);
     }
     card.remove();
 
     bookArray.splice(index, 1);
-
+    
     for (let i = index; i < bookArray.length; i++) {
         bookArray[i].closeButton.dataset.index = i;
-    }
 
-    if (bookArray.length < displayNumber + 1) {
-        leftButton.classList.add('hidden');
-        rightButton.classList.add('hidden');
+        if (i === displayStart) {
+            bookArray[i].card.dataset.position = 'left';
+        } else if (i === displayStart + 1) {
+            bookArray[i].card.dataset.position = 'middle';
+        } else if (i === displayStart + 2) {
+            bookArray[i].card.dataset.position = 'right';
+        }
     }
 }
 
