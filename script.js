@@ -9,12 +9,22 @@ library.addEventListener('wheel', (event) => {
         bookArray[centerIndex - 1].card.dataset.position = 'middle';
         bookArray[centerIndex].card.dataset.position = 'right';
         bookArray[centerIndex + 1].card.dataset.position = 'offscreenRight';
+
+        if (bookArray[centerIndex + 1].card.classList.contains('expandedInfo')) {
+            toggleInfo(bookArray[centerIndex + 1].card);
+        }
+        
         centerIndex -= 1;
     } else if (event.deltaY > 0 && centerIndex + 2 < bookArray.length) {
         bookArray[centerIndex + 2].card.dataset.position = 'right';
         bookArray[centerIndex + 1].card.dataset.position = 'middle';
         bookArray[centerIndex].card.dataset.position = 'left';
         bookArray[centerIndex - 1].card.dataset.position = 'offscreenLeft';
+
+        if (bookArray[centerIndex - 1].card.classList.contains('expandedInfo')) {
+            toggleInfo(bookArray[centerIndex - 1].card);
+        }
+
         centerIndex += 1;
     }
 });
@@ -85,15 +95,9 @@ function addToLibrary(title, author, pageCount, summary) {
     newBook.card = card;
     library.appendChild(card);
 
-    card.addEventListener('click', toggleInfo);
-
-    function toggleInfo() {
-        if (!card.classList.contains('expandedInfo')) {
-            card.classList.add('expandedInfo');
-        } else {
-            card.classList.remove('expandedInfo');
-        }
-    }
+    card.addEventListener('click', function() {
+        toggleInfo(card);
+    });
 
     let closeButton = document.createElement('div');
     closeButton.classList.add('close');
@@ -170,6 +174,14 @@ function addToLibrary(title, author, pageCount, summary) {
     }
 }
 
+function toggleInfo(card) {
+    if (!card.classList.contains('expandedInfo')) {
+        card.classList.add('expandedInfo');
+    } else {
+        card.classList.remove('expandedInfo');
+    }
+}
+
 function deleteFromLibrary() {
     let index = parseInt(this.dataset.index);
     let card = bookArray[index].card;
@@ -215,5 +227,3 @@ addToLibrary('Lord of the Rings', 'J.R.R. Tolkien', 1137, "The Lord of the Rings
 addToLibrary('Lord of the Flies', 'William Golding', 224, "William Golding's 1954 novel 'Lord of the Flies' tells the story of a group of young boys who find themselves alone on a deserted island. They develop rules and a system of organization, but without any adults to serve as a civilizing impulse, the children eventually become violent and brutal.");
 addToLibrary('Lord of the Rings', 'J.R.R. Tolkien', 1137, "The Lord of the Rings is the saga of a group of sometimes reluctant heroes who set forth to save their world from consummate evil. Its many worlds and creatures were drawn from Tolkien's extensive knowledge of philology and folklore.");
 addToLibrary('Lord of the Flies', 'William Golding', 224, "William Golding's 1954 novel 'Lord of the Flies' tells the story of a group of young boys who find themselves alone on a deserted island. They develop rules and a system of organization, but without any adults to serve as a civilizing impulse, the children eventually become violent and brutal.");
-
-centerView('middle');
