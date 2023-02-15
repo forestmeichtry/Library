@@ -13,7 +13,7 @@ library.addEventListener('wheel', (event) => {
         if (bookArray[centerIndex + 1].card.classList.contains('expandedInfo')) {
             toggleInfo(bookArray[centerIndex + 1].card);
         }
-        
+
         centerIndex -= 1;
     } else if (event.deltaY > 0 && centerIndex + 2 < bookArray.length) {
         bookArray[centerIndex + 2].card.dataset.position = 'right';
@@ -222,8 +222,7 @@ function deleteFromLibrary() {
 }
 
 addToLibrary('Lord of the Rings', 'J.R.R. Tolkien', 1137, "The Lord of the Rings is the saga of a group of sometimes reluctant heroes who set forth to save their world from consummate evil. Its many worlds and creatures were drawn from Tolkien's extensive knowledge of philology and folklore.");
-addToLibrary('Lord of the Flies', 'William Golding', 224, "William Golding's 1954 novel 'Lord of the Flies' tells the story of a group of young boys who find themselves alone on a deserted island. They develop rules and a system of organization, but without any adults to serve as a civilizing impulse, the children eventually become violent and brutal.");
-addToLibrary('Lord of the Rings', 'J.R.R. Tolkien', 1137, "The Lord of the Rings is the saga of a group of sometimes reluctant heroes who set forth to save their world from consummate evil. Its many worlds and creatures were drawn from Tolkien's extensive knowledge of philology and folklore.");
-addToLibrary('Lord of the Flies', 'William Golding', 224, "William Golding's 1954 novel 'Lord of the Flies' tells the story of a group of young boys who find themselves alone on a deserted island. They develop rules and a system of organization, but without any adults to serve as a civilizing impulse, the children eventually become violent and brutal.");
-addToLibrary('Lord of the Rings', 'J.R.R. Tolkien', 1137, "The Lord of the Rings is the saga of a group of sometimes reluctant heroes who set forth to save their world from consummate evil. Its many worlds and creatures were drawn from Tolkien's extensive knowledge of philology and folklore.");
+addToLibrary('I, Robot', 'Isaac Asimov', 256, "I, Robot, a collection of nine short stories by science-fiction writer Isaac Asimov that imagines the development of “positronic” (humanlike, with a form of artificial intelligence) robots and wrestles with the moral implications of the technology.");
+addToLibrary('Dune', 'Frank Herbert', 412, "A mythic and emotionally charged hero's journey, 'Dune' tells the story of Paul Atreides, a brilliant and gifted young man born into a great destiny beyond his understanding, who must travel to the most dangerous planet in the universe to ensure the future of his family and his people.");
+addToLibrary('A Wizard of Earthsea', 'Ursula K. Le Guin', 205, "The story is set in the fictional archipelago of Earthsea and centers on a young mage named Ged, born in a village on the island of Gont. He displays great power while still a boy and joins a school of wizardry, where his prickly nature drives him into conflict with a fellow student.");
 addToLibrary('Lord of the Flies', 'William Golding', 224, "William Golding's 1954 novel 'Lord of the Flies' tells the story of a group of young boys who find themselves alone on a deserted island. They develop rules and a system of organization, but without any adults to serve as a civilizing impulse, the children eventually become violent and brutal.");
