@@ -2,20 +2,43 @@ const library = document.getElementById('library');
 let bookArray = [];
 let centerIndex = 1;
 
+// Shift display on mousewheel scroll
 library.addEventListener('wheel', (event) => {
     event.preventDefault;
-    if (event.deltaY < 0 && centerIndex > 1) {
+    if (event.deltaY < 0) {
+        shiftDisplay('left');        
+    } else if (event.deltaY > 0) {
+        shiftDisplay('right');
+    }
+});
+
+const leftButton = document.getElementById('leftButton');
+const rightButton = document.getElementById('rightButton');
+leftButton.addEventListener('click', function() {
+    shiftDisplay('left');
+});
+rightButton.addEventListener('click', function() {
+    shiftDisplay('right');
+});
+
+
+// Shifts displayed book cards
+function shiftDisplay(direction) {
+    if (direction === 'left' && centerIndex > 1) {
         bookArray[centerIndex - 2].card.dataset.position = 'left';
         bookArray[centerIndex - 1].card.dataset.position = 'middle';
         bookArray[centerIndex].card.dataset.position = 'right';
-        bookArray[centerIndex + 1].card.dataset.position = 'offscreenRight';
 
-        if (bookArray[centerIndex + 1].card.classList.contains('expandedInfo')) {
-            toggleInfo(bookArray[centerIndex + 1].card);
+        if (centerIndex + 1 < bookArray.length) {
+            bookArray[centerIndex + 1].card.dataset.position = 'offscreenRight';
+
+            if (bookArray[centerIndex + 1].card.classList.contains('expandedInfo')) {
+                toggleInfo(bookArray[centerIndex + 1].card);
+            }
         }
 
         centerIndex -= 1;
-    } else if (event.deltaY > 0 && centerIndex + 2 < bookArray.length) {
+    } else if (direction === 'right' && centerIndex + 2 < bookArray.length) {
         bookArray[centerIndex + 2].card.dataset.position = 'right';
         bookArray[centerIndex + 1].card.dataset.position = 'middle';
         bookArray[centerIndex].card.dataset.position = 'left';
@@ -27,7 +50,19 @@ library.addEventListener('wheel', (event) => {
 
         centerIndex += 1;
     }
-});
+
+    if (centerIndex > 1) {
+        leftButton.classList.remove('hidden');
+    } else {
+        leftButton.classList.add('hidden');
+    }
+
+    if (centerIndex + 2 < bookArray.length) {
+        rightButton.classList.remove('hidden');
+    } else {
+        rightButton.classList.add('hidden');
+    }
+}
 
 const buttonArea = document.getElementById('buttonArea');
 const formArea = document.getElementById('formArea');
@@ -174,6 +209,7 @@ function addToLibrary(title, author, pageCount, summary) {
     }
 }
 
+// Toggles open / closed state of individual book cards
 function toggleInfo(card) {
     if (!card.classList.contains('expandedInfo')) {
         card.classList.add('expandedInfo');
@@ -182,6 +218,7 @@ function toggleInfo(card) {
     }
 }
 
+// Removes book from bookArray and associated bookCard from DOM
 function deleteFromLibrary() {
     let index = parseInt(this.dataset.index);
     let card = bookArray[index].card;
@@ -226,3 +263,7 @@ addToLibrary('I, Robot', 'Isaac Asimov', 256, "I, Robot, a collection of nine sh
 addToLibrary('Dune', 'Frank Herbert', 412, "A mythic and emotionally charged hero's journey, 'Dune' tells the story of Paul Atreides, a brilliant and gifted young man born into a great destiny beyond his understanding, who must travel to the most dangerous planet in the universe to ensure the future of his family and his people.");
 addToLibrary('A Wizard of Earthsea', 'Ursula K. Le Guin', 205, "The story is set in the fictional archipelago of Earthsea and centers on a young mage named Ged, born in a village on the island of Gont. He displays great power while still a boy and joins a school of wizardry, where his prickly nature drives him into conflict with a fellow student.");
 addToLibrary('Lord of the Flies', 'William Golding', 224, "William Golding's 1954 novel 'Lord of the Flies' tells the story of a group of young boys who find themselves alone on a deserted island. They develop rules and a system of organization, but without any adults to serve as a civilizing impulse, the children eventually become violent and brutal.");
+
+if (bookArray.length > 3) {
+    rightButton.classList.remove('hidden');
+}

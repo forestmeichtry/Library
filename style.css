@@ -6,6 +6,8 @@
     --seperator-height: 450px;
     --options-height: 300px;
     --library-height: calc(100vh - var(--options-height));
+    --left-card-position: calc(25vw - calc(var(--card-width) / 2));
+    --right-card-position: calc(75vw - calc(var(--card-width) / 2));
 }
 
 body {
@@ -32,17 +34,27 @@ body {
 }
 
 .arrow {
+    position: absolute;
+    top: calc(calc(var(--library-height) - 150px) / 2);
     margin: 20px;
     height: 150px;
     fill: #ccd5ae;
     stroke: black;
     stroke-width: .4px;
     stroke-linejoin: round;
-    transition: .2s;
+    transition: .7s;
+}
+
+#leftButton {
+    left: calc(calc(var(--left-card-position) / 2) - 85px);
+}
+
+#rightButton {
+    left: calc(100vw - calc(calc(var(--left-card-position) / 2)) - 85px);
 }
 
 .arrow:hover {
-    transform: scale(1.2);
+    transform: scale(1.05);
     fill: black;
     stroke: #ccd5ae;
 }
@@ -71,7 +83,7 @@ body {
 }
 
 .bookCard[data-position='left'] {
-    left: calc(25vw - calc(var(--card-width) / 2));
+    left: var(--left-card-position);
 }
 
 .bookCard[data-position='middle'] {
@@ -79,7 +91,7 @@ body {
 }
 
 .bookCard[data-position='right'] {
-    left: calc(75vw - calc(var(--card-width) / 2));
+    left: var(--right-card-position);
 }
 
 .bookCard[data-position='offscreenRight'] {
