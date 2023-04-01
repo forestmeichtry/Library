@@ -115,12 +115,23 @@ function submitNewBook(event) {
 }
 
 // Book object constructor
-function Book(title, author, pages, summary) {
-    this.title = title;
-    this.author = author;
-    this.pageCount = pages;
-    this.summary = summary;
-    this.card;
+// function Book(title, author, pages, summary) {
+//     this.title = title;
+//     this.author = author;
+//     this.pageCount = pages;
+//     this.summary = summary;
+//     this.card;
+// }
+
+// Book object class
+class Book {
+    constructor(title, author, pages, summary) {
+        this.title = title;
+        this.author = author;
+        this.pageCount = pages;
+        this.summary = summary;
+        this.card;
+    }
 }
 
 // Creates a book and adds it to the book array
