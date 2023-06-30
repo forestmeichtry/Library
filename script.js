@@ -99,6 +99,17 @@ submitButton.addEventListener('click', submitNewBook);
 
 function submitNewBook(event) {
     event.preventDefault();
+    const form = document.querySelector('#bookForm');
+    const formFields = form.querySelectorAll('input, textarea');
+
+    for (let field of formFields) {
+        if (field.validity.valueMissing) {
+            field.setCustomValidity("This field must be filled.");
+            field.reportValidity();
+            return;
+        }
+    }
+
     addToLibrary(
         titleField.value,
         authorField.value,
